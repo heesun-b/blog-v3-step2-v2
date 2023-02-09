@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import shop.mtcoding.blogv3.dto.ResponseDto;
 import shop.mtcoding.blogv3.dto.board.BoardReqDto.BoardSaveReqDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardDetailResponseDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardMainResponseDto;
+import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.BoardRepository;
 import shop.mtcoding.blogv3.model.User;
@@ -78,5 +80,18 @@ public class BoardController {
 
         model.addAttribute("dto", boardPS);
         return "board/detail";
+    }
+
+    @DeleteMapping("/board/{id}")
+    public ResponseEntity<?> delete(@PathVariable int id) {
+
+        User principal = (User) session.getAttribute("principal");
+
+        if (principal == null) {
+            throw new CustomApiException("인증이 되지 않았습니다.");
+        }
+
+        boardService.boardDelete(id, principal.getId());
+        return new ResponseEntity<>(new ResponseDto<>(1, "삭제 완료", null), HttpStatus.OK);
     }
 }

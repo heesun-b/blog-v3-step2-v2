@@ -29,4 +29,7 @@
   where bt.id = #{id}
   </select>
 
+  <delete id="deleteById">
+  delete from board_tb where id = #{id}
+  </delete>
 </mapper>

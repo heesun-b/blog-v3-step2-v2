@@ -19,4 +19,6 @@ public interface BoardRepository {
     public Board findById(int id);
 
     public BoardDetailResponseDto findByIdWithUser(int id);
+
+    public int deleteById(int id);
 }
