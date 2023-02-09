@@ -3,7 +3,6 @@ package shop.mtcoding.blogv3.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +46,7 @@ public class UserController {
         return "user/loginForm";
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public String login(LoginReqDto loginReqDto) {
         if (loginReqDto.getUsername() == null || loginReqDto.getUsername().isEmpty()) {
             throw new CustomException("username을 입력해주세요");

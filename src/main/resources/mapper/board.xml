@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="shop.mtcoding.blogv3.model.BoardRepository">
+
+  <insert id="insert">
+      insert into board_tb(user_id, title, thumbnail, content, created_at) values (#{userId}, #{title}, #{thumbnail}, #{content}, now())
+  </insert>
+
+  <select id="findAllWithUser" resultType="shop.mtcoding.blogv3.dto.board.BoardResDto$BoardMainResponseDto">
+    select bt.id, bt.title, bt.thumbnail, ut.username
+    from board_tb bt 
+    inner join user_tb ut
+    on bt.user_id = ut.id
+    order by bt.id desc;
+  </select>
+
+  <select id="findById" resultType="shop.mtcoding.blogv3.model.Board">
+  select * from board_tb where id = #{id}
+  </select>
+
+  <select id="findByIdWithUser" resultType="shop.mtcoding.blogv3.dto.board.BoardResDto$BoardDetailResponseDto">
+  select bt.id, bt.title, bt.content, ut.username, bt.user_id
+  from board_tb bt
+  inner join user_tb ut
+  on bt.user_id = ut.id
+  where bt.id = #{id}
+  </select>
+
+</mapper>
