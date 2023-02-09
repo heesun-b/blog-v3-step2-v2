@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.blogv3.dto.board.BoardReqDto.BoardSaveReqDto;
+import shop.mtcoding.blogv3.dto.board.BoardReqDto.BoardUpdateReqDto;
 import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.Board;
@@ -48,6 +49,20 @@ public class BoardService {
         }
 
         int result = boardRepository.deleteById(id);
+
+        if (result != 1) {
+            throw new CustomApiException("서버에 일시적인 문제가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Transactional
+    public void boardUpdate(int id, int userId, BoardUpdateReqDto boardUpdateReqDto) {
+        Board boardPS = boardRepository.findById(id);
+
+        String img = Thumbnail.thumbnailParse(boardUpdateReqDto.getContent());
+
+        int result = boardRepository.updateById(id, boardUpdateReqDto.getTitle(),
+                boardUpdateReqDto.getContent(), img);
 
         if (result != 1) {
             throw new CustomApiException("서버에 일시적인 문제가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);

@@ -21,4 +21,8 @@ public interface BoardRepository {
     public BoardDetailResponseDto findByIdWithUser(int id);
 
     public int deleteById(int id);
+
+    public int updateById(@Param("id") int id, @Param("title") String title,
+            @Param("content") String content, @Param("thumbnail") String thumbnail);
+
 }
