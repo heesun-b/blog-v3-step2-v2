@@ -29,7 +29,7 @@
 
             <nav class="navbar navbar-expand-sm bg-warning navbar-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Blog</a>
+                    <a class="navbar-brand" href="/">Blog</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapsibleNavbar">
                         <span class="navbar-toggler-icon"></span>
@@ -39,7 +39,7 @@
 
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">로그인</a>
+                                <a class="nav-link" href="/loginForm">로그인</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/joinForm">회원가입</a>

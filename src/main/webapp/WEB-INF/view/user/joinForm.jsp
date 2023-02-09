@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
     <%@ include file="../layout/header.jsp" %>
+
         <div class="container my-3" style="width: 400px;">
             <form action="/join" method="post" onsubmit="return valid()">
                 <div class="form-group mb-2 d-flex">
                     <input type="text" name="username" class="form-control" placeholder="Enter username" id="username"
                         required>
-                    <button class="badge bg-secondary ms-2" type="button">중복확인</button>
                 </div>
 
                 <div class="form-group mb-2">
@@ -18,14 +18,16 @@
                     <input type="password" class="form-control" placeholder="Enter passwordCheck" id="passwordCheck"
                         required onchange="passwordChecking()">
                 </div>
-                <div class="passwordCheckAlert"></div>
+
+                <div id="passwordCheckAlert"></div>
+
                 <div class="form-group mb-2">
-                    <input type="email" name="emil" class="form-control" placeholder="Enter Email" id="emil" required>
+                    <input type="email" name="email" class="form-control" placeholder="Enter Email" id="emil" required>
                 </div>
+            <button type="submit" class="btn btn-dark">회원가입</button>
             </form>
 
-            <button type="submit" class="btn btn-dark">회원가입</button>
-        </div>
+     
         </div>
 
         <script>
