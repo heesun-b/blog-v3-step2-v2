@@ -1,6 +1,9 @@
 package shop.mtcoding.blogv3.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +18,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/joinForm")
     public String joinForm() {
@@ -39,6 +45,20 @@ public class UserController {
     @GetMapping("/loginForm")
     public String loginForm() {
         return "user/loginForm";
+    }
+
+    @PostMapping("login")
+    public String login(LoginReqDto loginReqDto) {
+        if (loginReqDto.getUsername() == null || loginReqDto.getUsername().isEmpty()) {
+            throw new CustomException("username을 입력해주세요");
+        }
+
+        if (loginReqDto.getPassword() == null || loginReqDto.getPassword().isEmpty()) {
+            throw new CustomException("password를 입력해주세요");
+        }
+
+        session.setAttribute("principal", userService.login(loginReqDto));
+        return "redirect:/";
     }
 
 }
