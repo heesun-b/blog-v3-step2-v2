@@ -19,4 +19,13 @@ public class UserReqDto {
         private String username;
         private String password;
     }
+
+    @Getter
+    @Setter
+    public static class ProfileReqDto {
+        private String username;
+        private String password;
+        private String email;
+        private String profile;
+    }
 }

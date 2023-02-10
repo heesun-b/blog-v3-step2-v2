@@ -14,4 +14,7 @@ public interface UserRepository {
     public User findByEmail(String email);
 
     public User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+
+    public int update(@Param("id") int id, @Param("username") String username, @Param("paswword") String paswword,
+            @Param("profile") String profile);
 }

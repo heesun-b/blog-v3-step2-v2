@@ -19,4 +19,7 @@
   <select id="findByUsernameAndPassword" resultType="shop.mtcoding.blogv3.model.User">
   select * from user_tb where username = #{username} and password = #{password}
   </select>
-</mapper>
+
+  <update id="update">
+  update user_tb set username = #{username}, password = #{password}, email = #{email}, profile = #{prifile} where id = #{id}
+  </mapper>
