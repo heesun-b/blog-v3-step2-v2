@@ -1,18 +1,19 @@
 package shop.mtcoding.blogv3.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import shop.mtcoding.blogv3.dto.ResponseDto;
 import shop.mtcoding.blogv3.dto.reply.ReplyReqDto.ReplySaveReqDto;
+import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
-import shop.mtcoding.blogv3.model.Reply;
 import shop.mtcoding.blogv3.model.ReplyRepository;
 import shop.mtcoding.blogv3.model.User;
 import shop.mtcoding.blogv3.service.ReplyService;
@@ -52,6 +53,19 @@ public class ReplyController {
         replyService.save(principal.getId(), replySaveReqDto);
 
         return "redirect:/board/" + replySaveReqDto.getBoardId();
+    }
+
+    @DeleteMapping("/reply/{id}")
+    public ResponseEntity<?> delete(@PathVariable int id) {
+
+        User principal = (User) session.getAttribute("principal");
+
+        if (principal == null) {
+            throw new CustomApiException("인증 되지 않았습니다.");
+        }
+
+        replyService.delete(id, principal.getId());
+        return new ResponseEntity<>(new ResponseDto<>(1, "삭제 성공", null), HttpStatus.OK);
     }
 
 }

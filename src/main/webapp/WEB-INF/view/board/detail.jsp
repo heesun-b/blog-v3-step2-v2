@@ -70,7 +70,15 @@
                 });
             }
             function DeleteByReplyId(id) {
-
+                $.ajax({
+                    type: "delete",
+                    url: "/reply/" + id,
+                    dataType: "json"
+                }).done((res) => {
+                    $("#reply-" + id).remove();
+                }).fail((err) => {
+                    alert(err.responseJSON.msg);
+                });
             }
         </script>
 
