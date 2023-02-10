@@ -9,4 +9,9 @@ insert into board_tb(user_id, title, thumbnail, content,  created_at) values (2,
 insert into board_tb(user_id, title, thumbnail, content,  created_at) values (2, '제목6', '/images/dora.png', '66666666666',  now());
 insert into board_tb(user_id, title, thumbnail, content,  created_at) values (2, '제목6', '/images/dora.png', '66666666666',  now());
 
+insert into reply_tb(user_id, board_id, comment, created_at) values (1, 1, '댓글1', now());
+insert into reply_tb(user_id, board_id, comment, created_at) values (1, 2, '댓글2', now());
+insert into reply_tb(user_id, board_id, comment, created_at) values (2, 1, '댓글3', now());
+insert into reply_tb(user_id, board_id, comment, created_at) values (2, 2, '댓글4', now());
+
 commit; 
