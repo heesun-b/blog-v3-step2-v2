@@ -12,9 +12,13 @@ import lombok.Setter;
 import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.User;
+import shop.mtcoding.blogv3.service.ReplyService;
 
 @Controller
 public class ReplyController {
+
+    @Autowired
+    private ReplyService replyService;
 
     @Autowired
     private HttpSession session;
@@ -28,17 +32,18 @@ public class ReplyController {
         }
 
         if (replySaveReqDto.getComment() == null || replySaveReqDto.getComment().isEmpty()) {
-            throw new CustomApiException("comment를 작성해주세요.");
+            throw new CustomException("comment를 작성해주세요.");
         }
 
         if (replySaveReqDto.getBoardId() == null) {
-            throw new CustomApiException("boardId가 필요합니다.");
+            throw new CustomException("boardId가 필요합니다.");
         }
 
         if (replySaveReqDto.getComment().length() > 100) {
             throw new CustomException("100자 이하로 작성가능합니다.");
         }
 
+        replyService.save(principal.getId(), replySaveReqDto);
         return "redirect:/board/" + replySaveReqDto.getBoardId();
     }
 
