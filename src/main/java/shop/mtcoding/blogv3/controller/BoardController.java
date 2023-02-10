@@ -25,11 +25,14 @@ import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.Board;
 import shop.mtcoding.blogv3.model.BoardRepository;
+import shop.mtcoding.blogv3.model.ReplyRepository;
 import shop.mtcoding.blogv3.model.User;
 import shop.mtcoding.blogv3.service.BoardService;
 
 @Controller
 public class BoardController {
+    @Autowired
+    private ReplyRepository replyRepository;
 
     @Autowired
     private HttpSession session;
@@ -77,11 +80,9 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String detail(@PathVariable int id, Model model) {
-        BoardDetailResponseDto boardPS = boardRepository.findByIdWithUser(id);
-        User user = (User) session.getAttribute("principal");
-        // System.out.println(user.getId());
 
-        model.addAttribute("dto", boardPS);
+        model.addAttribute("boardDto", boardRepository.findByIdWithUser(id));
+        model.addAttribute("replyDtos", replyRepository.findByBoardIdWithUser(id));
         return "board/detail";
     }
 

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import shop.mtcoding.blogv3.controller.ReplyController.ReplySaveReqDto;
+import shop.mtcoding.blogv3.dto.reply.ReplyReqDto.ReplySaveReqDto;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.ReplyRepository;
 

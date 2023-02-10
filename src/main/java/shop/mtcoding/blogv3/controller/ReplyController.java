@@ -1,21 +1,27 @@
 package shop.mtcoding.blogv3.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import lombok.Getter;
-import lombok.Setter;
-import shop.mtcoding.blogv3.handler.ex.CustomApiException;
+import shop.mtcoding.blogv3.dto.reply.ReplyReqDto.ReplySaveReqDto;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
+import shop.mtcoding.blogv3.model.Reply;
+import shop.mtcoding.blogv3.model.ReplyRepository;
 import shop.mtcoding.blogv3.model.User;
 import shop.mtcoding.blogv3.service.ReplyService;
 
 @Controller
 public class ReplyController {
+
+    @Autowired
+    private ReplyRepository replyRepository;
 
     @Autowired
     private ReplyService replyService;
@@ -44,13 +50,8 @@ public class ReplyController {
         }
 
         replyService.save(principal.getId(), replySaveReqDto);
+
         return "redirect:/board/" + replySaveReqDto.getBoardId();
     }
 
-    @Getter
-    @Setter
-    public static class ReplySaveReqDto {
-        private String comment;
-        private Integer boardId;
-    }
 }

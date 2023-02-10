@@ -31,6 +31,7 @@ import shop.mtcoding.blogv3.dto.board.BoardReqDto.BoardSaveReqDto;
 import shop.mtcoding.blogv3.dto.board.BoardReqDto.BoardUpdateReqDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardDetailResponseDto;
+import shop.mtcoding.blogv3.dto.reply.ReplyResDto;
 import shop.mtcoding.blogv3.model.User;
 
 @Transactional
@@ -98,12 +99,20 @@ public class BoardControllerTest {
         // when
         ResultActions resultActions = mvc.perform(get("/board/" + id));
         Map<String, Object> map = resultActions.andReturn().getModelAndView().getModel();
-        BoardDetailResponseDto dto = (BoardDetailResponseDto) map.get("dto");
-        String model = om.writeValueAsString(dto);
-        System.out.print("테스트 : " + model);
+
+        BoardDetailResponseDto boardDto = (BoardDetailResponseDto) map.get("boardDto");
+        String boardDtoJson = om.writeValueAsString(boardDto);
+        List<ReplyResDto.ReplyDetailResDto> replyDtos = (List<ReplyResDto.ReplyDetailResDto>) map.get("replyDtos");
+        String replyListJson = om.writeValueAsString(replyDtos);
+
+        System.out.print("테스트 : " + boardDtoJson);
+        System.out.print("테스트 2: " + replyListJson);
+
         // then
+        // resultActions.andExpect(status().isOk());
+        // assertThat(dto.getUserId()).isEqualTo(1);
         resultActions.andExpect(status().isOk());
-        assertThat(dto.getUserId()).isEqualTo(1);
+        assertThat(boardDto.getUsername()).isEqualTo("ssar");
     }
 
     @Test
