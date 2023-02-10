@@ -79,7 +79,7 @@ public class BoardController {
     public String detail(@PathVariable int id, Model model) {
         BoardDetailResponseDto boardPS = boardRepository.findByIdWithUser(id);
         User user = (User) session.getAttribute("principal");
-        System.out.println(user.getId());
+        // System.out.println(user.getId());
 
         model.addAttribute("dto", boardPS);
         return "board/detail";
