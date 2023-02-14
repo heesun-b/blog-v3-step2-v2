@@ -20,6 +20,12 @@
   select * from user_tb where username = #{username} and password = #{password}
   </select>
 
+  <select id="findById" resultType="shop.mtcoding.blogv3.model.User">
+  select * from user_tb where id = #{id}
+  </select>
+
   <update id="update">
-  update user_tb set username = #{username}, password = #{password}, email = #{email}, profile = #{prifile} where id = #{id}
-  </mapper>
+  update user_tb set username = #{username}, password = #{password}, email = #{email}, profile = #{profile}, created_at = now() where id = #{id}
+  </update>
+
+</mapper>

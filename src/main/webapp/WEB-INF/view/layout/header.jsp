@@ -59,12 +59,12 @@
                         </ul>
                        </c:otherwise>
                     </c:choose>
-                      
+                        
                         <div>
-                            <a href="/user/profileUpdateForm"><img src="/images/profile.png" style="width: 35px;"
+                            <a href="/user/profileUpdateForm"><img src="${principal.profile == null ? '/images/profile.png' : '${principal.profile}'}" style="width: 35px;"
                                     class="rounded-circle" alt="Cinque Terre"></a>
                         </div>
-
+                 
                     </div>
                 </div>
             </nav>

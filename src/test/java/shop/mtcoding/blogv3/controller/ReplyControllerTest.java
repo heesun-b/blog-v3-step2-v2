@@ -71,9 +71,6 @@ public class ReplyControllerTest {
 
         ResultActions resultActions = mvc.perform(delete("/reply/" + id).session(mockSession));
 
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트: " + responseBody);
-
         resultActions.andExpect(status().isOk());
     }
 }

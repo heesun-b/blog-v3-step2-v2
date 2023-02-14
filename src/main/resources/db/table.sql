@@ -2,8 +2,8 @@ create table user_tb (
     id int auto_increment primary key, 
     username varchar not null unique,
     password varchar not null,
-    profile longtext,
     email varchar not null unique, 
+    profile varchar,
     created_at timestamp not null
 );
 

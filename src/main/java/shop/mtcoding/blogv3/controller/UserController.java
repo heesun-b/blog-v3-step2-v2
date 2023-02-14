@@ -1,16 +1,27 @@
 package shop.mtcoding.blogv3.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import shop.mtcoding.blogv3.dto.user.UserReqDto.JoinReqDto;
 import shop.mtcoding.blogv3.dto.user.UserReqDto.LoginReqDto;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
+import shop.mtcoding.blogv3.model.User;
+import shop.mtcoding.blogv3.model.UserRepository;
 import shop.mtcoding.blogv3.service.UserService;
+import shop.mtcoding.blogv3.util.PathUtil;
 
 @Controller
 public class UserController {
@@ -20,6 +31,9 @@ public class UserController {
 
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/joinForm")
     public String joinForm() {
@@ -66,4 +80,35 @@ public class UserController {
         return "redirect:/";
     }
 
+    @GetMapping("/user/profileUpdateForm")
+    public String profileUpdateForm(Model model) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            return "redirect:/loginForm";
+        }
+        User userPS = userRepository.findById(principal.getId());
+        model.addAttribute("user", userPS);
+        return "user/profileUpdateForm";
+    }
+
+    @PostMapping("/user/profileUpdate")
+    public String profileUpdate(MultipartFile profile) throws IOException {
+        // dispatcher servlet이 request 정보를 읽어서 파일을 MultipartFile로 담아줌
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            return "redirect:/loginForm";
+        }
+
+        // isempty는 null과 공백 같이 비교
+        if (profile.isEmpty()) {
+            throw new CustomException("사진이 전송되지 않았습니다");
+        }
+
+        // 사진이 아니면 ex 터트리기
+
+        User userPS = userService.updateProfile(profile, principal.getId());
+        session.setAttribute("principal", userPS);
+
+        return "redirect:/";
+    }
 }

@@ -12,6 +12,6 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String profile;
+    private String profile; // (사진경로 /images/~)
     private Timestamp createdAt;
 }

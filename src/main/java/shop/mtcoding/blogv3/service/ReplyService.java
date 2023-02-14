@@ -7,12 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 import shop.mtcoding.blogv3.dto.reply.ReplyReqDto.ReplySaveReqDto;
 import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.Reply;
 import shop.mtcoding.blogv3.model.ReplyRepository;
 
+@Slf4j
+@Transactional(readOnly = true)
 @Service
 public class ReplyService {
 
@@ -33,20 +36,21 @@ public class ReplyService {
     }
 
     @Transactional
-    public void delete(int id, int userId) {
+    public void delete(int id, int principalId) {
 
         Reply reply = replyRepository.findById(id);
 
         if (reply == null) {
             throw new CustomApiException("댓글을 찾을 수 없습니다.");
         }
-        if (reply.getUserId() != userId) {
+        if (reply.getUserId() != principalId) {
             throw new CustomApiException("삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
 
-        int result = replyRepository.deleteById(id);
-
-        if (result != 1) {
+        try {
+            replyRepository.deleteById(id);
+        } catch (Exception e) {
+            log.error("서버에러: " + e.getMessage());
             throw new CustomApiException("서버에 일시적인 문제가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
