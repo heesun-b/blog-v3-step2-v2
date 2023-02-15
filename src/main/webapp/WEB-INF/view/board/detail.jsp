@@ -11,8 +11,8 @@
 
             <div class="mb-2">
                 글 번호 : <span id="id"><i>${boardDto.id} </i></span> 작성자 : <span><i>${boardDto.username} </i></span>
-                <i id="heart" class="fa-regular fa-heart my-cursor my-xl"></i>
-
+                <i id="heart" class="fa-regular fa-heart my-cursor my-xl"
+                    onclick="like(${boardDto.id}, ${principal.id})" value="true"></i>
             </div>
 
             <div>
@@ -59,11 +59,64 @@
         </div>
         <script>
 
+
+            // $("#heart").click(() => {
+            //     if (!$("#heart").hasClass("fa-solid like-color")) {
+            //         $("#heart").addClass("fa-solid like-color");
+            //     } else {
+            //         $("#heart").removeClass("fa-solid like-color");
+            //     }
+            // })
+
+            function like(boardDtoId, principalId) {
+                //    console.log("boardId: " + boardDtoId + "  userId :" + principalId);
+                let data = {
+                    boardId: boardDtoId,
+                    userId: principalId
+                };
+                // console.log(data);
+
+                // $("#heart").toggleClass("fa-solid like-color");
+
+                if ($("#heart").hasClass("fa-solid like-color") == false) {
+                    $.ajax({
+                        type: "post",
+                        data: JSON.stringify(data),
+                        url: "/like/add",
+                        dataType: "Json",
+                        headers: {
+                            "Content-Type": "application/json; charset=UTF-8"
+                        }
+                    }).done((res) => {
+                        console.log(res.msg);
+                        $("#heart").attr("value", res.data);
+
+                        $("#heart").addClass("fa-solid like-color");
+                    }).fail((err) => {
+                        console.log(err);
+                        alert(err.responseJSON.msg);
+                    });
+                }
+                if ($("#heart").hasClass("fa-solid like-color") == true) {
+                    $.ajax({
+                        type: "delete",
+                        url: "/like/delete",
+                        dataType: "Json"
+                    }).done((res) => {
+                        console.log(res.msg);
+                        $("#heart").removeClass("fa-solid like-color");
+                    }).fail((err) => {
+                        alert(err.responseJSON.msg);
+                    });
+                }
+            }
+
+
             function deleteById(id) {
                 $.ajax({
                     type: "delete",
                     url: "/board/" + id,
-                    dataType: "json"
+                    dataType: "Json"
                 }).done((res) => {
                     alert(res.msg);
                     location.href = "/";
@@ -71,19 +124,20 @@
                     alert(err.responseJSON.msg);
                 });
             }
+
             function DeleteByReplyId(id) {
                 $.ajax({
                     type: "delete",
                     url: "/reply/" + id,
-                    dataType: "json"
+                    dataType: "Json"
                 }).done((res) => {
                     $("#reply-" + id).remove();
                 }).fail((err) => {
                     alert(err.responseJSON.msg);
                 });
             }
-        </script>
 
+        </script>
 
 
         <%@ include file="../layout/footer.jsp" %>

@@ -1,10 +1,6 @@
 package shop.mtcoding.blogv3.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,7 +17,6 @@ import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.User;
 import shop.mtcoding.blogv3.model.UserRepository;
 import shop.mtcoding.blogv3.service.UserService;
-import shop.mtcoding.blogv3.util.PathUtil;
 
 @Controller
 public class UserController {
@@ -70,7 +65,9 @@ public class UserController {
             throw new CustomException("password를 입력해주세요");
         }
 
-        session.setAttribute("principal", userService.login(loginReqDto));
+        User prinipal = userService.login(loginReqDto);
+        session.setAttribute("principal", prinipal);
+
         return "redirect:/";
     }
 
@@ -104,11 +101,12 @@ public class UserController {
             throw new CustomException("사진이 전송되지 않았습니다");
         }
 
-        // 사진이 아니면 ex 터트리기
+        // 사진이 아니면 ex 터트리기 - 구현해야 함
 
         User userPS = userService.updateProfile(profile, principal.getId());
         session.setAttribute("principal", userPS);
 
         return "redirect:/";
     }
+
 }

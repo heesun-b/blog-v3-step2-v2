@@ -9,7 +9,7 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>📃Blog</title>
-              <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
             <script src="https://kit.fontawesome.com/32aa2b8683.js" crossorigin="anonymous"></script>
@@ -24,7 +24,7 @@
 
         <body>
 
-            <nav class="navbar navbar-expand-sm bg-warning navbar-dark">
+            <nav class="navbar navbar-expand-sm bg-warning navbar-dark mb-3">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/">Blog</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -33,38 +33,40 @@
                     </button>
 
                     <div class="collapse navbar-collapse justify-content-between" id="collapsibleNavbar">
-                    <c:choose>
-                       <c:when test="${principal == null}">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/loginForm">로그인</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/joinForm">회원가입</a>
-                            </li>           
-                        </ul>
-                       </c:when>
-                    
-                       <c:otherwise>
-                       <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/saveForm">글쓰기</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">회원정보</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/logout">로그아웃</a>
-                            </li>
-                        </ul>
-                       </c:otherwise>
-                    </c:choose>
-                        
+                        <c:choose>
+                            <c:when test="${principal == null}">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/loginForm">로그인</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/joinForm">회원가입</a>
+                                    </li>
+                                </ul>
+                            </c:when>
+
+                            <c:otherwise>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/saveForm">글쓰기</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">회원정보</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/logout">로그아웃</a>
+                                    </li>
+                                </ul>
+                            </c:otherwise>
+
+                        </c:choose>
+
                         <div>
-                            <a href="/user/profileUpdateForm"><img src="${principal.profile == null ? '/images/profile.png' : '${principal.profile}'}" style="width: 35px;"
-                                    class="rounded-circle" alt="Cinque Terre"></a>
+                            <a href="/user/profileUpdateForm"><img
+                                    src="${principal.profile == null ? '/images/profile.png' : '${principal.profile}'}"
+                                    style="width: 35px;" class="rounded-circle" alt="Cinque Terre"></a>
                         </div>
-                 
+
                     </div>
                 </div>
             </nav>

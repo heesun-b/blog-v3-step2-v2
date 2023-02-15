@@ -6,11 +6,12 @@
 <mapper namespace="shop.mtcoding.blogv3.model.ReplyRepository">
 
   <select id="findByBoardIdWithUser" resultType="shop.mtcoding.blogv3.dto.reply.ReplyResDto$ReplyDetailResDto">
-    select rt.id, rt.comment, rt.user_id, rt.board_id, ut.username
+    select rt.id, rt.comment, rt.user_id, rt.board_id, ut.username, rt.created_at
     from reply_tb rt
     inner join user_tb ut
     on rt.user_id = ut.id
     where rt.board_id = #{boardId}
+    order by id desc
   </select>
 
   <insert id="insert">
@@ -20,6 +21,14 @@
 
   <select id="findById" resultType="shop.mtcoding.blogv3.model.Reply">
   select * from reply_tb where id = #{id}
+  </select>
+
+  <select id="findAllWithUser" resultType="shop.mtcoding.blogv3.dto.reply.ReplyResDto$ReplyAdminResDto">
+  select rt.id, rt.comment, rt.board_id, rt.created_at, ut.username
+  from reply_tb rt
+  join user_tb ut
+  on rt.user_id = ut.id
+  order by id desc
   </select>
 
 

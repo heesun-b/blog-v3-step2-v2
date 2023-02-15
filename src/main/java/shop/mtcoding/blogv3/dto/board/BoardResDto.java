@@ -1,5 +1,7 @@
 package shop.mtcoding.blogv3.dto.board;
 
+import java.sql.Timestamp;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +14,7 @@ public class BoardResDto {
         private String title;
         private String thumbnail;
         private String username;
+        private Timestamp createdAt;
     }
 
     @Getter

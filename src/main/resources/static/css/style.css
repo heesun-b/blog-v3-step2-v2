@@ -3,3 +3,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.my-cursor {
+    cursor: pointer;
+}
+
+.like-color {
+    color: red;
+}

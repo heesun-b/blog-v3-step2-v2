@@ -4,6 +4,7 @@ create table user_tb (
     password varchar not null,
     email varchar not null unique, 
     profile varchar,
+    roll varchar not null default 'USER', 
     created_at timestamp not null
 );
 
@@ -21,6 +22,13 @@ create table reply_tb(
     user_id int not null,
     board_id int not null,
     comment varchar(100) not null,
+    created_at timestamp not null
+);
+
+create table like_tb(
+    id int auto_increment primary key,
+    user_id int not null,
+    board_id int not null, 
     created_at timestamp not null
 );
 

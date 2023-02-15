@@ -13,5 +13,6 @@ public class User {
     private String password;
     private String email;
     private String profile; // (사진경로 /images/~)
+    private String roll;
     private Timestamp createdAt;
 }

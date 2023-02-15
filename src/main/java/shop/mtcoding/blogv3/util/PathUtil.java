@@ -22,7 +22,7 @@ public class PathUtil {
         String uuidImageRealName = "images\\" + uuid + "_" + profile.getOriginalFilename();
 
         String staticFolder = getStaticFolder();
-        Path imageFilePath = Paths.get(staticFolder + "\\" + uuidImageRealName);
+        Path imageFilePath = Paths.get(staticFolder + uuidImageRealName);
         try {
             // 내부적으로 스레드 구현 : 비동기
             // Files.write(path(경로), 바이트 데이터) : 바이트스트림으로 버퍼에 전송하기 때문에 getBytes

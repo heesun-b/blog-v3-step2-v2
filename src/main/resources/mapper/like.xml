@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="shop.mtcoding.blogv3.model.LikeRepository">
+
+    <select id="findByUserId" resultType="shop.mtcoding.blogv3.model.Like">
+        select * from like_tb where user_id = #{userId}
+    </select>
+
+    <select id="findByBoardId" resultType="shop.mtcoding.blogv3.model.Like">
+        select * from like_tb where board_id = #{boardId}
+    </select>
+
+    <select id="findByBoardIdAndUserId" resultType="shop.mtcoding.blogv3.model.Like">
+        select * from like_tb where board_id = #{boardId} and user_id = #{userId}
+    </select>
+
+    <insert id="insert">
+        insert into like_tb (user_id, board_id, created_at) values (#{userId}, #{boardId}, now())
+    </insert>
+
+    <delete id="deleteById">
+        delete from like_tb where id = #{id}
+    </delete>
+
+</mapper>

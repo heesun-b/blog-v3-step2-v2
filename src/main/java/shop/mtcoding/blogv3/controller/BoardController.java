@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import shop.mtcoding.blogv3.dto.ResponseDto;
 import shop.mtcoding.blogv3.dto.board.BoardReqDto.BoardSaveReqDto;
 import shop.mtcoding.blogv3.dto.board.BoardReqDto.BoardUpdateReqDto;
-import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardDetailResponseDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardMainResponseDto;
 import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.Board;
 import shop.mtcoding.blogv3.model.BoardRepository;
+import shop.mtcoding.blogv3.model.LikeRepository;
 import shop.mtcoding.blogv3.model.ReplyRepository;
 import shop.mtcoding.blogv3.model.User;
 import shop.mtcoding.blogv3.service.BoardService;
@@ -42,6 +42,9 @@ public class BoardController {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private LikeRepository likeRepository;
 
     @GetMapping("/")
     public String main(Model model) {
