@@ -6,6 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LikeReqDto {
-    private int userId;
-    private int BoardId;
+    private int boardId;
 }

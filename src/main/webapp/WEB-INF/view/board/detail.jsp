@@ -9,14 +9,16 @@
                 </div>
             </c:if>
 
-            <div class="mb-2">
-                글 번호 : <span id="id"><i>${boardDto.id} </i></span> 작성자 : <span><i>${boardDto.username} </i></span>
-                <i id="heart" class="fa-regular fa-heart my-cursor my-xl"
-                    onclick="like(${boardDto.id}, ${principal.id})" value="true"></i>
-            </div>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h3>${boardDto.title}</h3>
+                </div>
 
-            <div>
-                <h3>${boardDto.title}</h3>
+                <div class="mb-2">
+                    글 번호 : <span id="id"><i>${boardDto.id} </i></span> 작성자 : <span><i>${boardDto.username} </i></span>
+                    <i id="heart" class="fa-regular fa-heart my-cursor my-xl ${like.code}" onclick="like(${like.id})"
+                        value="${like.id}"></i>
+                </div>
             </div>
             <hr />
             <div>
@@ -59,58 +61,55 @@
         </div>
         <script>
 
-
-            // $("#heart").click(() => {
-            //     if (!$("#heart").hasClass("fa-solid like-color")) {
-            //         $("#heart").addClass("fa-solid like-color");
-            //     } else {
-            //         $("#heart").removeClass("fa-solid like-color");
-            //     }
-            // })
-
-            function like(boardDtoId, principalId) {
-                //    console.log("boardId: " + boardDtoId + "  userId :" + principalId);
+            function like(id) {
                 let data = {
-                    boardId: boardDtoId,
-                    userId: principalId
-                };
-                // console.log(data);
+                    'boardId': ${ boardDto.id }
+            }
 
-                // $("#heart").toggleClass("fa-solid like-color");
+            //       $("#heart").toggleClass("fa-solid like-color").
 
-                if ($("#heart").hasClass("fa-solid like-color") == false) {
+            if (id == 0) {
+
+                if (!$("#heart").hasClass("fa-solid")) {
+
                     $.ajax({
                         type: "post",
                         data: JSON.stringify(data),
-                        url: "/like/add",
                         dataType: "Json",
+                        url: "/like",
                         headers: {
                             "Content-Type": "application/json; charset=UTF-8"
                         }
                     }).done((res) => {
-                        console.log(res.msg);
-                        $("#heart").attr("value", res.data);
-
                         $("#heart").addClass("fa-solid like-color");
-                    }).fail((err) => {
-                        console.log(err);
-                        alert(err.responseJSON.msg);
-                    });
-                }
-                if ($("#heart").hasClass("fa-solid like-color") == true) {
-                    $.ajax({
-                        type: "delete",
-                        url: "/like/delete",
-                        dataType: "Json"
-                    }).done((res) => {
-                        console.log(res.msg);
-                        $("#heart").removeClass("fa-solid like-color");
+                        $("#heart").attr("value", res.data);
+                        $("#heart").attr("onclick", "like(" + res.data + ")");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });
                 }
             }
 
+            if (id != 0) {
+
+                $.ajax({
+                    type: "delete",
+                    dataType: "Json",
+                    url: "/like/delete/" + id
+                }).done((res) => {
+                    $("#heart").removeClass("fa-solid");
+                    $("#haert").removeClass("like-color");
+                    $("#heart").attr("value", res.data);
+                    $("#heart").attr("onclick", "like(" + res.data + ")");
+                }).fail((err) => {
+                    alert(err.responseJSON.msg);
+                });
+
+            }
+
+
+
+            }
 
             function deleteById(id) {
                 $.ajax({

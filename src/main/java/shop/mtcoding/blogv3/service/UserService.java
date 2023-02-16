@@ -25,7 +25,7 @@ public class UserService {
 
     @Transactional
     public void join(JoinReqDto joinReqDto) {
-        User SameUsername = userRepository.findByUsername(joinReqDto.getUsername());
+        User SameUsername = userRepository.findByUser(joinReqDto.getUsername());
 
         if (SameUsername != null) {
             throw new CustomException("동일한 Username이 존재합니다.");

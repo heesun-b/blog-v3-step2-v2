@@ -10,58 +10,37 @@ import shop.mtcoding.blogv3.model.Board;
 import shop.mtcoding.blogv3.model.BoardRepository;
 import shop.mtcoding.blogv3.model.Like;
 import shop.mtcoding.blogv3.model.LikeRepository;
-import shop.mtcoding.blogv3.model.UserRepository;
 
 @Service
 public class LikeService {
-    @Autowired
-    private BoardRepository boardRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private BoardRepository boardRepository;
 
     @Autowired
     private LikeRepository likeRepository;
 
     @Transactional
-    public void insert(int boardId, int principalId) {
-        Board boardPS = boardRepository.findById(boardId);
+    public void insert(int boardId, int userId) {
 
+        Board boardPS = boardRepository.findById(boardId);
         if (boardPS == null) {
             throw new CustomApiException("존재하지 않는 게시물입니다");
         }
 
-        Like likePS = likeRepository.findByBoardIdAndUserId(boardId, principalId);
-
-        if (likePS != null) {
-            throw new CustomApiException("이미 좋아요 처리된 게시물입니다.");
-        }
-
-        int result = likeRepository.insert(principalId, boardId);
-
+        int result = likeRepository.insert(boardId, userId, "fa-solid like-color");
         if (result != 1) {
-            throw new CustomApiException("서버에 일시적 문제가 발생", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new CustomApiException("서버 오류", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Transactional
-    public void delete(int boardId, int principalId) {
-        Board boardPS = boardRepository.findById(boardId);
+    public void delete(int id) {
 
-        if (boardPS == null) {
-            throw new CustomApiException("존재하지 않는 게시물입니다");
-        }
+        int result = likeRepository.deleteById(id);
 
-        Like likePs = likeRepository.findByBoardIdAndUserId(boardId, principalId);
-        // if(likePs == null) {
-        // throw new CustomApiException("");
-        // }
-        if (likePs == null) {
-            throw new CustomApiException("이미 좋아요가 취소된 게시물입니다.");
-        }
-        int result = likeRepository.deleteById(likePs.getId());
         if (result != 1) {
-            throw new CustomApiException("서버에 일시적 문제가 발생", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new CustomApiException("서버 오류", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

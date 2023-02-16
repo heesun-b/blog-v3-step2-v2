@@ -27,9 +27,9 @@ create table reply_tb(
 
 create table like_tb(
     id int auto_increment primary key,
-    user_id int not null,
     board_id int not null, 
-    created_at timestamp not null
+    user_id int not null,
+    code varchar
 );
 
 commit;

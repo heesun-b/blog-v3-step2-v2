@@ -16,6 +16,8 @@ public interface BoardRepository {
 
         public List<BoardMainResponseDto> findAllWithUser();
 
+        public List<BoardMainResponseDto> findAllWithUserForSearch(String q);
+
         public Board findById(int id);
 
         public BoardDetailResponseDto findByIdWithUser(int id);
@@ -23,6 +25,8 @@ public interface BoardRepository {
         public int deleteById(int id);
 
         public List<Board> findAll();
+
+        public List<Board> findByTitle(String title);
 
         public int updateById(@Param("id") int id, @Param("title") String title,
                         @Param("content") String content, @Param("thumbnail") String thumbnail);

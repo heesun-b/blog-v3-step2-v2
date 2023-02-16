@@ -24,6 +24,7 @@ import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.Board;
 import shop.mtcoding.blogv3.model.BoardRepository;
+import shop.mtcoding.blogv3.model.Like;
 import shop.mtcoding.blogv3.model.LikeRepository;
 import shop.mtcoding.blogv3.model.ReplyRepository;
 import shop.mtcoding.blogv3.model.User;
@@ -41,10 +42,10 @@ public class BoardController {
     private BoardService boardService;
 
     @Autowired
-    private BoardRepository boardRepository;
+    private LikeRepository likeRepository;
 
     @Autowired
-    private LikeRepository likeRepository;
+    private BoardRepository boardRepository;
 
     @GetMapping("/")
     public String main(Model model) {
@@ -86,6 +87,24 @@ public class BoardController {
 
         model.addAttribute("boardDto", boardRepository.findByIdWithUser(id));
         model.addAttribute("replyDtos", replyRepository.findByBoardIdWithUser(id));
+
+        User principal = (User) session.getAttribute("principal");
+
+        if (principal != null) {
+            Like likePS = likeRepository.findByBoardIdAndUserId(id, principal.getId());
+
+            if (likePS == null) {
+                likePS = new Like();
+                likePS.setId(0);
+                likePS.setCode(" ");
+            }
+            model.addAttribute("like", likePS);
+        } else {
+            Like likePS2 = new Like();
+            likePS2.setId(0);
+            likePS2.setCode(" ");
+            model.addAttribute("like", likePS2);
+        }
         return "board/detail";
     }
 

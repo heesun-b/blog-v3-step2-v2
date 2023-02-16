@@ -57,16 +57,21 @@
                                         <a class="nav-link" href="/logout">로그아웃</a>
                                     </li>
                                 </ul>
+
                             </c:otherwise>
 
                         </c:choose>
 
-                        <div>
-                            <a href="/user/profileUpdateForm"><img
-                                    src="${principal.profile == null ? '/images/profile.png' : '${principal.profile}'}"
-                                    style="width: 35px;" class="rounded-circle" alt="Cinque Terre"></a>
-                        </div>
 
                     </div>
+
+
+                    <div>
+                        <a href="/user/profileUpdateForm"><img
+                                src="${principal.profile == null ? '/images/profile.png' : '${principal.profile}'}"
+                                style="width: 35px;" class="rounded-circle" alt="Cinque Terre"></a>
+                    </div>
+
+                </div>
                 </div>
             </nav>

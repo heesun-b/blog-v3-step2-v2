@@ -12,7 +12,7 @@ public interface UserRepository {
         public int insert(@Param("username") String username, @Param("password") String password,
                         @Param("email") String email);
 
-        public User findByUsername(String username);
+        public List<User> findByUsername(String username);
 
         public User findById(int id);
 
@@ -20,10 +20,14 @@ public interface UserRepository {
 
         public List<User> findAll();
 
+        public User findByUser(String username);
+
         public User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
         public int update(@Param("id") int id, @Param("username") String username, @Param("password") String password,
                         @Param("eamil") String email, @Param("profile") String profile,
                         @Param("createdAt") Timestamp createdAt);
+
+        public int deleteById(int id);
 
 }

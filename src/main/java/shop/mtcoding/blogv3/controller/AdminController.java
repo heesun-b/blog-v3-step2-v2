@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import shop.mtcoding.blogv3.dto.ResponseDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardMainResponseDto;
@@ -131,5 +132,30 @@ public class AdminController {
         }
 
         return new ResponseEntity<>(new ResponseDto<>(1, "게시글 이동", null), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/admin/user/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable int userId) {
+        User principal = (User) session.getAttribute("principal");
+
+        if (principal == null) {
+            throw new CustomApiException("인증되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+
+        adminService.UserDelete(userId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "계정 삭제 완료", null), HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/user/search")
+    public ResponseEntity<?> searchUser(@RequestBody String username) {
+        List<User> userList = userRepository.findByUsername(username);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "user 필터링", userList), HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/board/search")
+    public ResponseEntity<?> searchUser(@RequestBody String q) {
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "user 필터링", null), HttpStatus.OK);
     }
 }

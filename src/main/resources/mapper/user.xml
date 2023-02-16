@@ -14,6 +14,10 @@
   </insert>
 
   <select id = "findByUsername" resultType="shop.mtcoding.blogv3.model.User">
+    select * from user_tb where username like CONCAT('%', #{username}, '%') and roll = 'USER'
+  </select>
+
+  <select id = "findByUser" resultType="shop.mtcoding.blogv3.model.User">
     select * from user_tb where username = #{username}
   </select>
 
@@ -32,5 +36,9 @@
   <update id="update">
   update user_tb set username = #{username}, password = #{password}, email = #{email}, profile = #{profile}, created_at = now() where id = #{id}
   </update>
+
+  <delete id="deleteById">
+  delete from user_tb where id = #{id}
+  </delete>
 
 </mapper>

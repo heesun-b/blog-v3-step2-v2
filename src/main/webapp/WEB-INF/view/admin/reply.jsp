@@ -1,6 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
   <%@ include file="../layout/header.jsp" %>
 
+  
+    <div class="d-flex justify-content-end">
+      <nav class="navbar bg-body-tertiary">
+        <div class="container">
+          <form class="d-flex" role="search" action="/admin/search" method="post">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
+            <button class="btn btn-outline-dark" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+    </div>
+
+
     <div class="d-flex">
        <div class="container mt-3" style="width: 200px;">
         <div class="list-group text-center">
