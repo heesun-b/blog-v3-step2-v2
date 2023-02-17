@@ -16,10 +16,13 @@ import shop.mtcoding.blogv3.dto.user.UserReqDto.LoginReqDto;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.User;
 import shop.mtcoding.blogv3.model.UserRepository;
+import shop.mtcoding.blogv3.service.AdminService;
 import shop.mtcoding.blogv3.service.UserService;
 
 @Controller
 public class UserController {
+    @Autowired
+    private AdminService adminService;
 
     @Autowired
     private UserService userService;
@@ -47,6 +50,7 @@ public class UserController {
             throw new CustomException("email을 입력해주세요");
         }
         userService.join(joinReqDto);
+
         return "redirect:/loginForm";
     }
 
@@ -85,6 +89,7 @@ public class UserController {
         }
         User userPS = userRepository.findById(principal.getId());
         model.addAttribute("user", userPS);
+        System.out.println("테스트 : " + userPS.getProfile());
         return "user/profileUpdateForm";
     }
 

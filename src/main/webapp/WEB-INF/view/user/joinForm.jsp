@@ -32,10 +32,10 @@
 
         <script>
 
-            let checkedPassword = false;
+            let checkingPassword = false;
 
             function valid() {
-                if (checkedPassword == ture) {
+                if (checkingPassword == ture) {
                     return ture;
                 } else {
                     return false;

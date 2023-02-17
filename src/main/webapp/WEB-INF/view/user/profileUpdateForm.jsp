@@ -48,7 +48,7 @@
             <h2 class="text-center"><b>프로필 사진 변경</b></h2>
             <form action="/user/profileUpdate" method="post" enctype="multipart/form-data" id="profileForm">
                 <div class="form-group">
-                    <img src="${user.profile == null ? '/images/profile.png' : '${user.profile}'}" id="imagePreview"
+                    <img src="${user.profile == null ? '/images/profile.png' : user.profile}" id="imagePreview"
                         alt="Current Photo" class="img-fluid">
                 </div>
                 <div class="form-group">

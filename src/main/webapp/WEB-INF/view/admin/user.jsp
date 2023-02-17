@@ -32,6 +32,7 @@
               <th>EMAIL</th>
               <th>CREATED</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody id="t-box">
@@ -41,6 +42,7 @@
                 <td>${user.username}</td>
                 <td>${user.email}</td>
                 <td>${user.createdAt}</td>
+                <td> <a href="/admin/sendMail/${user.id}"><button id="btn-delete" class="btn btn-dark">메일전송</button></a>
                 <td> <button id="btn-delete" class="btn btn-danger" onClick="deleteUserById(${user.id})">계정삭제</button>
                 </td>
               </tr>
@@ -86,6 +88,8 @@
                 <td>`+ user.username + `</td>
                 <td>`+ user.email + `</td>
                 <td>`+ user.createdAt + `</td>
+                <td> <a href="/admin/sendMail/` + user.id + `"><button id="btn-delete" class="btn btn-danger">메일전송</button></a>
+                </td>
                 <td> <button id="btn-delete" class="btn btn-danger" onClick="deleteUserById(`+ user.id + `)">계정삭제</button>
                 </td>
               </tr>`;
@@ -106,5 +110,7 @@
           alert(err.responseJSON.msg);
         });
       }
+
+
     </script>
     <%@ include file="../layout/footer.jsp" %>

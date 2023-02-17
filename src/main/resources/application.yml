@@ -27,6 +27,18 @@ spring:
     view:
       prefix: /WEB-INF/view/
       suffix: .jsp
+  mail:
+    host: smtp.naver.com
+    port: 587
+    username: heesun9793@naver.com
+    password: gmltjs9793
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          
   
 mybatis:
   mapper-locations:

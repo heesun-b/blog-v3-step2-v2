@@ -26,4 +26,7 @@
                         <li class="page-item disabled"><a class="page-link" href="#">◀</a></li>
                         <li class="page-item"><a class="page-link" href="#">▶</a></li>
                 </ul>
+
+
+                
                 <%@ include file="../layout/footer.jsp" %>

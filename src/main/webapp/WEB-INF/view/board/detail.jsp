@@ -47,7 +47,7 @@
                             <div>${reply.comment}</div>
                             <div class="d-flex">
                                 <div class="font-italic">작성자 : ${reply.username} &nbsp;</div>
-                                <c:if test="${principal.id == reply.userId}">
+                                <c:if test="${principal.id == reply.userId || principal.roll == 'ADMIN'}">
                                     <button onClick="DeleteByReplyId(${reply.id})" class="badge bg-danger">삭제</button>
                                 </c:if>
                             </div>

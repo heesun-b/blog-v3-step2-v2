@@ -2,6 +2,7 @@ package shop.mtcoding.blogv3.controller;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import shop.mtcoding.blogv3.dto.MailResDto;
 import shop.mtcoding.blogv3.dto.ResponseDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardAdminResponseDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardMainResponseDto;
@@ -28,9 +30,14 @@ import shop.mtcoding.blogv3.model.ReplyRepository;
 import shop.mtcoding.blogv3.model.User;
 import shop.mtcoding.blogv3.model.UserRepository;
 import shop.mtcoding.blogv3.service.AdminService;
+import shop.mtcoding.blogv3.service.MailService;
 
 @Controller
 public class AdminController {
+
+    @Autowired
+    private MailService mailService;
+
     @Autowired
     private BoardRepository boardRepository;
 
@@ -185,4 +192,29 @@ public class AdminController {
 
     }
 
+    @PostMapping("/admin/sendMail")
+    public String sendMail(MailResDto mailResDto) {
+        User principal = (User) session.getAttribute("principal");
+
+        if (principal == null) {
+            throw new CustomException("인증되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+
+        try {
+            mailService.sendMail(mailResDto);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/admin/user";
+    }
+
+    @GetMapping({ "/admin/mailForm", "/admin/sendMail/{id}" })
+    public String sendMailForUser(@PathVariable int id, Model model) {
+
+        User user = userRepository.findById(id);
+
+        model.addAttribute("user", user);
+        return "admin/mail";
+
+    }
 }

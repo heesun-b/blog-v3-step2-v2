@@ -1,12 +1,17 @@
 package shop.mtcoding.blogv3.service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.mtcoding.blogv3.dto.MailResDto;
 import shop.mtcoding.blogv3.dto.user.UserReqDto.LoginReqDto;
 import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
@@ -105,4 +110,5 @@ public class AdminService {
             throw new CustomApiException("삭제 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

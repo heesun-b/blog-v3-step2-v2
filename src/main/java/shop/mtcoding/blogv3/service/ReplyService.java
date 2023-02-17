@@ -13,6 +13,7 @@ import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.Reply;
 import shop.mtcoding.blogv3.model.ReplyRepository;
+import shop.mtcoding.blogv3.model.User;
 
 @Slf4j
 @Transactional(readOnly = true)
@@ -43,7 +44,10 @@ public class ReplyService {
         if (reply == null) {
             throw new CustomApiException("댓글을 찾을 수 없습니다.");
         }
-        if (reply.getUserId() != principalId) {
+
+        User principal = (User) session.getAttribute("principal");
+
+        if (reply.getUserId() != principalId && principal.getRoll().equals("USER")) {
             throw new CustomApiException("삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
 
