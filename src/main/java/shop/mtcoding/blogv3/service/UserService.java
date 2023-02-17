@@ -24,6 +24,7 @@ public class UserService {
     private HttpSession session;
 
     @Transactional
+
     public void join(JoinReqDto joinReqDto) {
         User SameUsername = userRepository.findByUser(joinReqDto.getUsername());
 

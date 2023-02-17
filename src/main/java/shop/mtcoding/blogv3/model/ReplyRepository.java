@@ -26,4 +26,6 @@ public interface ReplyRepository {
     public List<ReplyDetailResDto> findByBoardIdWithUser(int boardId);
 
     public List<ReplyAdminResDto> findAllWithUser();
+
+    public List<ReplyAdminResDto> findBySearch(String search);
 }

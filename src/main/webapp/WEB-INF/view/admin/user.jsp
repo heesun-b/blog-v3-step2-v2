@@ -57,28 +57,31 @@
       function searching() {
         let q = $("#q").val();
 
-        $.ajax({
-          type: "post",
-          dataType: "json",
-          data: q,
-          url: "/admin/user/search",
-          headers: {
-            "Content-Type": "text/plain; charset=UTF-8"
-          }
-        }).done((res) => {
-          // alert("D");
-          // console.log(res.data);
-          $("#t-box").empty();
-          render(res.data);
-        }).fail((err) => {
-          alert("검색 실패");
-        });
+  if (q.length > 0) {
+    
+  
+      $.ajax({
+        type: "post",
+        dataType: "json",
+        data: q,
+        url: "/admin/user/search",
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        }
+      }).done((res) => {
 
-      }
+        $("#t-box").empty();
+        render(res.data);
+      }).fail((err) => {
+        alert(err.responseJSON.msg);
+        location.reload();
+      });
+  }
+ }
 
       function render(users) {
         users.forEach((user) => {
-          let el = ` <tr id="user-` + user.id + `}">
+          let userArray = ` <tr id="user-` + user.id + `">
                 <td>`+ user.id + `</td>
                 <td>`+ user.username + `</td>
                 <td>`+ user.email + `</td>
@@ -87,7 +90,7 @@
                 </td>
               </tr>`;
 
-          $("#t-box").prepend(el);
+          $("#t-box").prepend(userArray);
         });
       }
 

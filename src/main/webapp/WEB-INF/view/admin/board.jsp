@@ -5,7 +5,7 @@
       <nav class="navbar bg-body-tertiary">
         <div class="container">
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="q">
             <button class="btn btn-outline-dark" type="button" onclick="searching()">Search</button>
           </form>
         </div>
@@ -73,29 +73,36 @@
           $("#board-" + id).remove();
         }).fail((err) => {
           alert(err.responseJSON.msg);
+          location.reload();
         });
       }
 
       function searching() {
         let q = $("#q").val();
 
-        $.ajax({
-          type: "post",
-          dataType: "json",
-          data: q,
-          url: "/admin/board/search",
-          headers: {
-            "Content-Type": "text/plain; charset=UTF-8"
-          }
-        }).done((res) => {
-          // alert("D");
-          // console.log(res.data);
-          $("#t-box").empty();
-          render(res.data);
-        }).fail((err) => {
-          alert("검색 실패");
-        });
+        if (q.length > 0) {
 
+
+          $.ajax({
+            type: "post",
+            dataType: "json",
+            data: q,
+            url: "/admin/board/search",
+            headers: {
+              "Content-Type": "text/plain; charset=UTF-8"
+            }
+          }).done((res) => {
+
+            if (res.code == 1) {
+              $("#t-box").empty();
+              render(res.data);
+            }
+          }).fail((err) => {
+            alert(err.responseJSON.msg);
+            location.reload();
+          });
+
+        }
       }
 
 

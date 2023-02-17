@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardAdminResponseDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardDetailResponseDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardMainResponseDto;
 
@@ -16,7 +17,7 @@ public interface BoardRepository {
 
         public List<BoardMainResponseDto> findAllWithUser();
 
-        public List<BoardMainResponseDto> findAllWithUserForSearch(String q);
+        public List<BoardAdminResponseDto> findAllWithUserForSearch(String search);
 
         public Board findById(int id);
 

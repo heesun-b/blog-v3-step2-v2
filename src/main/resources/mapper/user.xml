@@ -13,8 +13,8 @@
     insert into user_tb(username, password, email, , created_at) values (#{username}, #{password}, #{email}, now())
   </insert>
 
-  <select id = "findByUsername" resultType="shop.mtcoding.blogv3.model.User">
-    select * from user_tb where username like CONCAT('%', #{username}, '%') and roll = 'USER'
+  <select id = "findByUserForSearch" resultType="shop.mtcoding.blogv3.model.User">
+    select * from user_tb where username like CONCAT('%', #{search}, '%') or email like CONCAT('%', #{search}, '%') and roll = 'USER'
   </select>
 
   <select id = "findByUser" resultType="shop.mtcoding.blogv3.model.User">

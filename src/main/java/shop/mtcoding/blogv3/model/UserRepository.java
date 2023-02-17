@@ -12,7 +12,7 @@ public interface UserRepository {
         public int insert(@Param("username") String username, @Param("password") String password,
                         @Param("email") String email);
 
-        public List<User> findByUsername(String username);
+        public List<User> findByUserForSearch(String search);
 
         public User findById(int id);
 

@@ -56,6 +56,12 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="/logout">로그아웃</a>
                                     </li>
+
+                                    <c:if test="${principal.roll == 'ADMIN'}" >
+                                     <li class="nav-item">
+                                        <a class="nav-link" href="/admin/user">관리페이지</a>
+                                    </li>
+                                    </c:if>
                                 </ul>
 
                             </c:otherwise>

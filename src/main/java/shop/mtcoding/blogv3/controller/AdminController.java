@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import shop.mtcoding.blogv3.dto.ResponseDto;
+import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardAdminResponseDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardMainResponseDto;
 import shop.mtcoding.blogv3.dto.reply.ReplyResDto.ReplyAdminResDto;
 import shop.mtcoding.blogv3.dto.user.UserReqDto.LoginReqDto;
@@ -147,15 +148,41 @@ public class AdminController {
     }
 
     @PostMapping("/admin/user/search")
-    public ResponseEntity<?> searchUser(@RequestBody String username) {
-        List<User> userList = userRepository.findByUsername(username);
+    public ResponseEntity<?> searchUser(@RequestBody String search) {
 
-        return new ResponseEntity<>(new ResponseDto<>(1, "user 필터링", userList), HttpStatus.OK);
+        if (search.isBlank() || search.isEmpty() || search == null) {
+            throw new CustomApiException("검색어 미입력");
+        }
+        List<User> userList = userRepository.findByUserForSearch(search);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "user 필터링", userList),
+                HttpStatus.OK);
     }
 
     @PostMapping("/admin/board/search")
-    public ResponseEntity<?> searchUser(@RequestBody String q) {
+    public ResponseEntity<?> searchBoard(@RequestBody String search) {
 
-        return new ResponseEntity<>(new ResponseDto<>(1, "user 필터링", null), HttpStatus.OK);
+        if (search.isBlank() || search.isEmpty() || search == null) {
+            throw new CustomApiException("검색어 미입력");
+        }
+        List<BoardAdminResponseDto> boardList = boardRepository.findAllWithUserForSearch(search);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "board 필터링", boardList),
+                HttpStatus.OK);
     }
+
+    @PostMapping("/admin/reply/search")
+    public ResponseEntity<?> searchReply(@RequestBody String search) {
+
+        if (search.isBlank() || search.isEmpty() || search == null) {
+            throw new CustomApiException("검색어 미입력");
+        }
+
+        List<ReplyAdminResDto> replyList = replyRepository.findBySearch(search);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "reply 필터링", replyList),
+                HttpStatus.OK);
+
+    }
+
 }

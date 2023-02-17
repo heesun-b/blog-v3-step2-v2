@@ -27,4 +27,14 @@ public class BoardResDto {
         private String username;
         private String content;
     }
+
+    @Getter
+    @Setter
+    public static class BoardAdminResponseDto {
+        private int id;
+        private String title;
+        private String username;
+        private Timestamp createdAt;
+    }
+
 }
