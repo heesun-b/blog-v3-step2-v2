@@ -5,14 +5,19 @@ import java.io.IOException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import shop.mtcoding.blogv3.dto.ResponseDto;
 import shop.mtcoding.blogv3.dto.user.UserReqDto.JoinReqDto;
 import shop.mtcoding.blogv3.dto.user.UserReqDto.LoginReqDto;
+import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.User;
 import shop.mtcoding.blogv3.model.UserRepository;
@@ -112,6 +117,16 @@ public class UserController {
         session.setAttribute("principal", userPS);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/join/usernameCheck")
+    public ResponseEntity<?> sameUsernameCheck(String username) {
+        User userPS = userRepository.findByUser(username);
+
+        if (userPS != null) {
+            throw new CustomApiException("동일한 username이 존재합니다.");
+        }
+        return new ResponseEntity<>(new ResponseDto<>(1, "username 사용 가능", null), HttpStatus.OK);
     }
 
 }

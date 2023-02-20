@@ -4,11 +4,13 @@
 
         <div class="container my-3" style="width: 400px;">
             <form action="/join" method="post" onsubmit="return valid()">
-                <div class="form-group mb-2 d-flex">
-                    <input type="text" name="username" class="form-control" placeholder="Enter username" id="username"
-                        required>
+                <div class="d-flex justify-content-between">
+                    <div class="form-group mb-2 d-flex w-75">
+                        <input type="text" name="username" class="form-control" placeholder="Enter username"
+                            id="username" required>
+                    </div>
+                    <button type="button" class="btn btn-dark mb-2" onclick="usernameChecking()">중복체크</button>
                 </div>
-
                 <div class="form-group mb-2">
                     <input type="password" name="password" class="form-control" placeholder="Enter password"
                         id="password" required>
@@ -24,13 +26,27 @@
                 <div class="form-group mb-2">
                     <input type="email" name="email" class="form-control" placeholder="Enter Email" id="emil" required>
                 </div>
-            <button type="submit" class="btn btn-dark">회원가입</button>
+                <button type="submit" class="btn btn-dark w-100">회원가입</button>
             </form>
-
-     
         </div>
 
         <script>
+
+            function usernameChecking() {
+
+                let e = $("#username");
+                let username = e.val();
+
+                $.ajax({
+                    type: "get",
+                    data: username,
+                    url: "/join/usernameCheck?username=" + username,
+                }).done((res) => {
+                    alert(res.msg);
+                }).fail((err) => {
+                    alert(err.responseJSON.msg);
+                });
+            }
 
             let checkingPassword = false;
 
