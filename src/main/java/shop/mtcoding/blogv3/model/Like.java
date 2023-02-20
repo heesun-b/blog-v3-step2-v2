@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Like {
-
     private Integer id;
     private Integer boardId;
     private Integer userId;

@@ -16,7 +16,7 @@
                     <h3>${boardDto.title}</h3>
                 </div>
 
-                <div class="mb-2">
+                <div class="align-self-end">
                     글 번호 : <span id="id"><i>${boardDto.id} </i></span> 작성자 : <span><i>${boardDto.username} </i></span>
 
                     <c:choose>
@@ -31,14 +31,14 @@
                         </c:otherwise>
                     </c:choose>
 
-
                     <script>
                         let boardId = $("#boardId").val();
+
                         // 자바스크립트는 정의만 하면 null이 아니라 undefined이 뜸
                         function likeOrCancel() {
                             let id = $("#heart").attr("value");
 
-                            if (id == undefined) {
+                            if (id == undefined || id == "") {
 
                                 let data = {
                                     "boardId": boardId
@@ -70,7 +70,7 @@
                                     dataType: "Json"
                                 }).done((res) => {
                                     // 좋아요된 유저 아이디 받아야 함
-                                    $("#heart").attr("value", undefined);
+                                    $("#heart").attr("value", "");
                                     $("#heart").addClass("fa-regular");
                                     $("#heart").removeClass("fa-solid");
                                 }).fail((err) => {
