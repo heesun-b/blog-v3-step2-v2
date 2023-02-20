@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
+        <input type="hidden" id="boardId" value="${boardDto.id}" />
+
         <div class="container my-3">
             <c:if test="${boardDto.userId == principal.id}">
                 <div class="mb-3">
@@ -16,8 +18,69 @@
 
                 <div class="mb-2">
                     글 번호 : <span id="id"><i>${boardDto.id} </i></span> 작성자 : <span><i>${boardDto.username} </i></span>
-                    <i id="heart" class="fa-regular fa-heart my-cursor my-xl ${like.code}" onclick="like(${like.id})"
-                        value="${like.id}"></i>
+
+                    <c:choose>
+                        <c:when test="${likeDto == null}">
+                            <i id="heart" class="fa-regular fa-heart my-cursor my-xl" value="${likeDto.id}"
+                                onclick="likeOrCancel()"></i>
+                        </c:when>
+
+                        <c:otherwise>
+                            <i id="heart" class="fa-solid fa-heart my-cursor my-xl" value="${likeDto.id}"
+                                onclick="likeOrCancel()"></i>
+                        </c:otherwise>
+                    </c:choose>
+
+
+                    <script>
+                        let boardId = $("#boardId").val();
+                        // 자바스크립트는 정의만 하면 null이 아니라 undefined이 뜸
+                        function likeOrCancel() {
+                            let id = $("#heart").attr("value");
+
+                            if (id == undefined) {
+
+                                let data = {
+                                    "boardId": boardId
+                                }
+
+                                //좋아요 통신 요청 (post)
+                                $.ajax({
+                                    type: "post",
+                                    url: "/like",
+                                    data: JSON.stringify(data),
+                                    dataType: "Json",
+                                    headers: {
+                                        "Content-Type": "application/json; charset=UTF-8"
+                                    }
+                                }).done((res) => {
+                                    // 좋아요된 갹체 받아야 함
+                                    $("#heart").attr("value", res.data);
+                                    $("#heart").addClass("fa-solid");
+                                    $("#heart").removeClass("fa-regular");
+                                }).fail((err) => {
+                                    alert(err.responseJSON.msg);
+                                });
+                            } else {
+
+                                // 좋아요 취소 통신 요청(delete)
+                                $.ajax({
+                                    type: "delete",
+                                    url: "/like/" + id,
+                                    dataType: "Json"
+                                }).done((res) => {
+                                    // 좋아요된 유저 아이디 받아야 함
+                                    $("#heart").attr("value", undefined);
+                                    $("#heart").addClass("fa-regular");
+                                    $("#heart").removeClass("fa-solid");
+                                }).fail((err) => {
+                                    alert(err.responseJSON.msg);
+                                });
+                            }
+
+                        }
+
+                    </script>
                 </div>
             </div>
             <hr />
@@ -61,55 +124,7 @@
         </div>
         <script>
 
-            function like(id) {
-                let data = {
-                    'boardId': ${ boardDto.id }
-            }
 
-            //       $("#heart").toggleClass("fa-solid like-color").
-
-            if (id == 0) {
-
-                if (!$("#heart").hasClass("fa-solid")) {
-
-                    $.ajax({
-                        type: "post",
-                        data: JSON.stringify(data),
-                        dataType: "Json",
-                        url: "/like",
-                        headers: {
-                            "Content-Type": "application/json; charset=UTF-8"
-                        }
-                    }).done((res) => {
-                        $("#heart").addClass("fa-solid like-color");
-                        $("#heart").attr("value", res.data);
-                        $("#heart").attr("onclick", "like(" + res.data + ")");
-                    }).fail((err) => {
-                        alert(err.responseJSON.msg);
-                    });
-                }
-            }
-
-            if (id != 0) {
-
-                $.ajax({
-                    type: "delete",
-                    dataType: "Json",
-                    url: "/like/delete/" + id
-                }).done((res) => {
-                    $("#heart").removeClass("fa-solid");
-                    $("#haert").removeClass("like-color");
-                    $("#heart").attr("value", res.data);
-                    $("#heart").attr("onclick", "like(" + res.data + ")");
-                }).fail((err) => {
-                    alert(err.responseJSON.msg);
-                });
-
-            }
-
-
-
-            }
 
             function deleteById(id) {
                 $.ajax({

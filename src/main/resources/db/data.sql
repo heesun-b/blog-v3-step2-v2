@@ -19,4 +19,7 @@ insert into reply_tb(user_id, board_id, comment, created_at) values (1, 2, '댓�
 insert into reply_tb(user_id, board_id, comment, created_at) values (2, 1, '댓글3', now());
 insert into reply_tb(user_id, board_id, comment, created_at) values (2, 2, '댓글4', now());
 
+INSERT INTO like_tb(board_id, user_id, created_at) values(1, 1, now());
+INSERT INTO like_tb(board_id, user_id, created_at) values(1, 2, now());
+
 commit; 

@@ -9,13 +9,17 @@ import org.apache.ibatis.annotations.Param;
 public interface LikeRepository {
     public Like findById(int id);
 
+    public List<Like> findAll();
+
     public List<Like> findByUserId(int userId);
 
-    public List<Like> findByBoardId(int userId);
+    public List<Like> findByBoardId(int boardId);
 
     public Like findByBoardIdAndUserId(@Param("boardId") int boardId, @Param("userId") int userId);
 
-    public int insert(@Param("boardId") int boardId, @Param("userId") int userId, @Param("code") String code);
+    public int insert(Like like);
+
+    public int updateById(Like like);
 
     public int deleteById(int id);
 }

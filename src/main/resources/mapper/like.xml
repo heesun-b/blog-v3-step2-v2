@@ -6,27 +6,35 @@
 <mapper namespace="shop.mtcoding.blogv3.model.LikeRepository">
 
 
-    <select id="findById" resultType="shop.mtcoding.blogv3.model.Like">
+  <select id="findById" resultType="shop.mtcoding.blogv3.model.Like">
     select * from like_tb where id = #{id}
-    </select>
+  </select>
 
-    <select id="findByUserId" resultType="shop.mtcoding.blogv3.model.Like">
+  <select id="findAll" resultType="shop.mtcoding.blogv3.model.Like">
+    select * from like_tb 
+  </select>
+
+  <select id="findByUserId" resultType="shop.mtcoding.blogv3.model.Like">
     select * from like_tb where user_id = #{userId}
-    </select>
+  </select>
 
-    <select id="findByBoardId" resultType="shop.mtcoding.blogv3.model.Like">
+  <select id="findByBoardId" resultType="shop.mtcoding.blogv3.model.Like">
     select * from like_tb where board_id = #{boardId}
-    </select>
+  </select>
 
-    <select id="findByBoardIdAndUserId" resultType="shop.mtcoding.blogv3.model.Like">
+  <select id="findByBoardIdAndUserId" resultType="shop.mtcoding.blogv3.model.Like">
     select * from like_tb where user_id = #{userId} and board_id = #{boardId}
-    </select>
+  </select>
 
-    <insert id = "insert">
-    insert into like_tb(board_id, user_id, code) values (#{boardId}, #{userId}, #{code})
-    </insert>
+  <insert id = "insert">
+    insert into like_tb(board_id, user_id, created_at) values (#{boardId}, #{userId}, now())
+  </insert>
 
-    <delete id = "deleteById">
+  <delete id = "deleteById">
     delete from like_tb where id = #{id}
-    </delete>
+  </delete>
+
+  <update id="updateById">
+  update like_tb set board_id = #{boardId}, user_id = #{userId}, created_at = #{createdAt} where id = #{id}
+  </update>
 </mapper>

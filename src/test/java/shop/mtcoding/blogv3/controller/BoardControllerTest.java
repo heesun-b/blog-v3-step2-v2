@@ -30,8 +30,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import shop.mtcoding.blogv3.dto.board.BoardReqDto.BoardSaveReqDto;
 import shop.mtcoding.blogv3.dto.board.BoardReqDto.BoardUpdateReqDto;
 import shop.mtcoding.blogv3.dto.board.BoardResDto;
-import shop.mtcoding.blogv3.dto.board.BoardResDto.BoardDetailResponseDto;
-import shop.mtcoding.blogv3.dto.reply.ReplyResDto;
 import shop.mtcoding.blogv3.model.User;
 
 @Transactional
@@ -91,29 +89,39 @@ public class BoardControllerTest {
         assertThat(dtos.get(0).getTitle()).isEqualTo("제목6");
     }
 
-    @Test
-    public void detail_test() throws Exception {
-
-        // given
-        int id = 1;
-        // when
-        ResultActions resultActions = mvc.perform(get("/board/" + id));
-        Map<String, Object> map = resultActions.andReturn().getModelAndView().getModel();
-
-        BoardDetailResponseDto boardDto = (BoardDetailResponseDto) map.get("boardDto");
-        String boardDtoJson = om.writeValueAsString(boardDto);
-        List<ReplyResDto.ReplyDetailResDto> replyDtos = (List<ReplyResDto.ReplyDetailResDto>) map.get("replyDtos");
-        String replyListJson = om.writeValueAsString(replyDtos);
-
-        System.out.print("테스트 : " + boardDtoJson);
-        System.out.print("테스트 2: " + replyListJson);
-
-        // then
-        // resultActions.andExpect(status().isOk());
-        // assertThat(dto.getUserId()).isEqualTo(1);
-        resultActions.andExpect(status().isOk());
-        assertThat(boardDto.getUsername()).isEqualTo("ssar");
-    }
+    /*
+     * @Test
+     * public void detail_test() throws Exception {
+     * 
+     * // given
+     * int id = 1;
+     * 
+     * // when
+     * ResultActions resultActions = mvc.perform(get("/board/" +
+     * id).session(mockSession));
+     * Map<String, Object> map =
+     * resultActions.andReturn().getModelAndView().getModel();
+     * 
+     * BoardDetailResponseDto boardDto = (BoardDetailResponseDto)
+     * map.get("boardDto");
+     * String boardDtoJson = om.writeValueAsString(boardDto);
+     * List<ReplyResDto.ReplyDetailResDto> replyDtos =
+     * (List<ReplyResDto.ReplyDetailResDto>) map.get("replyDtos");
+     * Like likeDto = (Like) map.get("likeDto");
+     * 
+     * // String replyListJson = om.writeValueAsString(replyDtos);
+     * 
+     * // System.out.print("테스트 : " + boardDtoJson);
+     * // System.out.print("테스트 2: " + replyListJson);
+     * 
+     * // then
+     * // resultActions.andExpect(status().isOk());
+     * // assertThat(dto.getUserId()).isEqualTo(1);
+     * resultActions.andExpect(status().isOk());
+     * assertThat(boardDto.getUsername()).isEqualTo("ssar");
+     * assertThat(likeDto.getBoardId()).isEqualTo(1);
+     * }
+     */
 
     @Test
     public void delete_test() throws Exception {

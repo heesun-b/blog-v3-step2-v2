@@ -24,7 +24,6 @@ import shop.mtcoding.blogv3.handler.ex.CustomApiException;
 import shop.mtcoding.blogv3.handler.ex.CustomException;
 import shop.mtcoding.blogv3.model.Board;
 import shop.mtcoding.blogv3.model.BoardRepository;
-import shop.mtcoding.blogv3.model.Like;
 import shop.mtcoding.blogv3.model.LikeRepository;
 import shop.mtcoding.blogv3.model.ReplyRepository;
 import shop.mtcoding.blogv3.model.User;
@@ -85,26 +84,14 @@ public class BoardController {
     @GetMapping("/board/{id}")
     public String detail(@PathVariable int id, Model model) {
 
-        model.addAttribute("boardDto", boardRepository.findByIdWithUser(id));
-        model.addAttribute("replyDtos", replyRepository.findByBoardIdWithUser(id));
-
         User principal = (User) session.getAttribute("principal");
 
         if (principal != null) {
-            Like likePS = likeRepository.findByBoardIdAndUserId(id, principal.getId());
-
-            if (likePS == null) {
-                likePS = new Like();
-                likePS.setId(0);
-                likePS.setCode(" ");
-            }
-            model.addAttribute("like", likePS);
-        } else {
-            Like likePS2 = new Like();
-            likePS2.setId(0);
-            likePS2.setCode(" ");
-            model.addAttribute("like", likePS2);
+            model.addAttribute("likeDto", likeRepository.findByBoardIdAndUserId(id, principal.getId()));
         }
+        // 지금은 따로 담아서 던지지만 최종적으로는 dto로 만들어서 한 번에 전달할 것임
+        model.addAttribute("boardDto", boardRepository.findByIdWithUser(id));
+        model.addAttribute("replyDtos", replyRepository.findByBoardIdWithUser(id));
         return "board/detail";
     }
 

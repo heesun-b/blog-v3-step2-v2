@@ -1,5 +1,7 @@
 package shop.mtcoding.blogv3.model;
 
+import java.sql.Timestamp;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,8 +9,8 @@ import lombok.Setter;
 @Setter
 public class Like {
 
-    private int id;
-    private int boardId;
-    private int userId;
-    private String code;
+    private Integer id;
+    private Integer boardId;
+    private Integer userId;
+    private Timestamp createdAt;
 }
